@@ -60,7 +60,18 @@ data['TotalCharges'] = data['TotalCharges'].replace(" ", 0).astype('float64')
 churn = data[(data['Churn'] != 0)]
 no_churn = data[(data['Churn'] == 0)]
 
+#cột dữ liệu với các services yes
 data["Tong dich vu"]= (data[['PhoneService', 'InternetService', 'OnlineSecurity', 'OnlineBackup', 'DeviceProtection', 'TechSupport', 'StreamingTV', 'StreamingMovies']]== 'Yes').sum(axis=1)
+
+#tạo ra trường dữ liệu mới với những khách hàng ko được cung cấp
+data['no_itn'] = 1
+data.loc[(data['OnlineSecurity'] != 'No internet service') & 
+         (data['OnlineBackup'] != 'No internet service') & 
+         (data['DeviceProtection'] != 'No internet service') & 
+         (data['TechSupport'] != 'No internet service') & 
+         (data['StreamingTV'] != 'No internet service') & 
+         (data['StreamingMovies'] != 'No internet service'), 'no_itn'] = 0
+
 
 #biểu đồ cột đếm churn
 trace = go.Bar(
