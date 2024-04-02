@@ -1,0 +1,202 @@
+MỤC LỤC
+I. Giới thiệu bài toán	2
+II. Nghiên cứu liên quan	2
+III. Phương pháp	2
+3.1. Các kỹ thuật nền tảng	2
+3.2. Đề xuất phương pháp	2
+IV. Thực nghiệm	4
+4.1. Miêu tả dữ liệu	4
+4.2. Tiền xử lý dữ liệu	6
+4.3. Các độ đo đánh giá hiệu năng	9
+4.4. Các tham số và môi trường cài đặt	10
+4.4.1. Tham số	10
+4.4.2. Môi trường cài đặt	10
+4.5. Các phương pháp cơ sở	10
+4.6. Phân tích, so sánh các kết quả	11
+4.6.1. Mô hình phân loại	11
+4.6.2. Decision Tree	14
+4.6.3. Random Forest	15
+4.6.4. XGBoost	15
+V. Kết luận	16
+
+ 
+BÁO CÁO DỰ ÁN TELECO CUSTOMER CHURN
+I. Giới thiệu bài toán
+Trên thế giới hiện nay, Toàn cầu hóa và sự tiến bộ về công nghệ đã thay đổi ngành viễn thông, dẫn đến sự gia tăng đáng kể về số lượng nhà cung cấp dịch vụ, tạo ra một cạnh tranh thị trường gay gắt. Ngành này trở nên quan trọng ở các quốc gia phát triển, nên các công ty đề xuất tăng lợi nhuận bằng cách thu hút khách hàng mới, tăng doanh số bán hàng cho khách hàng hiện tại và kéo dài thời gian giữ chân khách hàng.
+Trong bài toán kinh doanh, việc giữ chân khách hàng trở thành một trong những vấn đề quan trọng nhất cần giải quyết đối với các công ty viễn thông trong một thị trường ngày càng cạnh tranh. Trong những công ty này, một trong những chỉ số kinh doanh quan trọng nhất là tỷ lệ khách hàng rời bỏ dịch vụ, bởi vì việc duy trì một khách hàng hiện tại có chi phí đáng kể ít hơn so với việc tìm kiếm một khách hàng mới. Để thực hiện các phương pháp hiệu quả để giảm thiểu mất mát khách hàng, việc xây dựng một mô hình dự đoán là một cách hợp lý để phân tích các đặc điểm và nguyên nhân của khách hàng có thể bị mất.
+Ngành viễn thông được biết đến với sự cạnh tranh gay gắt và tỷ lệ chuyển đổi cao giữa các công ty, và giữa các ngành . Mặc dù có một lượng lớn tài liệu về chủ đề này, các nghiên cứu về các yếu tố quyết định hành vi chuyển đổi phân tán, thiếu một cái nhìn tổng quan toàn diện về tình trạng hiện tại của nghiên cứu. Dựa trên khoảng trống này trong nghiên cứu, bài viết này nhằm đóng góp vào việc phát triển về tài liệu về sự chuyển đổi của khách hàng trong ngành viễn thông bằng cách tổng hợp nghiên cứu hiện có và xác định các yếu tố quan trọng nhất về việc chuyển đổi và ý định chuyển đổi. 
+Sự xuất hiện của công nghệ 5G và sự thay đổi trong sở thích của khách hàng đã tạo ra rất nhiều cơ hội cho các công ty viễn thông. Những cơ hội kinh doanh to lớn cũng đã dẫn đến sự cạnh tranh khốc liệt trên thị trường viễn thông, đi kèm với tỷ lệ chuyển đổi khách hàng cao. Điều này gây ra áp lực lớn đối với các nhà điều hành viễn thông phải đưa ra các chiến lược tiếp thị hiệu quả dựa trên phân tích khách hàng mở rộng để ngăn chặn việc mất khách hàng và tăng doanh thu của công ty. Phân tích khách hàng trong ngành viễn thông bao gồm hai yếu tố chính, đó là dự đoán sự chuyển đổi và phân khúc khách hàng. Vì thị trường viễn thông có xu hướng bão hòa, việc tập trung quá nhiều vào việc thu hút các thuê bao mới không còn phù hợp với ngành viễn thông nữa. Chi phí thu hút khách hàng mới bằng cách đầu tư nguồn lực đáng kể được xác nhận là cao hơn đáng kể so với chi phí giữ chân khách hàng hiện tại. Trong bối cảnh này, quản lý sự chuyển đổi trở nên quan trọng đối với ngành viễn thông. 
+Sự chuyển đổi khách hàng là một vấn đề lớn đối với các doanh nghiệp lớn. Đặc biệt, trong lĩnh vực kinh doanh cho thuê, các công ty đang tìm kiếm cách giữ chân khách hàng vì khách hàng là nguồn thu chính của họ. Cho nên cũng cần phải tìm ra được cách thức giữ chân khách hàng, để duy trì và phát triển hoạt động của công ty và phát triển ngành.
+II. Nghiên cứu liên quan
+Nghiên cứu những yếu tố quyết định về việc chuyển mạng trong dịch vụ viễn thông thông qua một bài đánh giá hệ thống về tài liệu. Thực hiện một cuộc đánh giá tài liệu hệ thống (SLR) với 37 bài báo được công bố từ năm 1999 đến 2022, nghiên cứu này tiết lộ hai luồng nghiên cứu khác biệt. Luồng nghiên cứu đầu tiên tập trung vào các nghiên cứu dựa trên khảo sát điều tra ý định của các thuê bao về việc chuyển đổi nhà mạng, sử dụng các yếu tố như sự hài lòng và thái độ làm các chỉ số dự đoán. Luồng nghiên cứu thứ hai xem xét hành vi chuyển đổi thực tế của các thuê bao, tương quan với hành vi và đặc điểm được trích xuất từ các hệ thống quản lý khách hàng nội bộ. Phân tích tài liệu tiết lộ một số yếu tố quan trọng về hành vi chuyển đổi. Các yếu tố này bao gồm tuổi tác, giới tính, mức độ hài lòng, chi phí và rào cản chuyển đổi, và chất lượng dịch vụ. Ngoài ra, nghiên cứu cung cấp những ứng dụng thực tiễn được rút ra từ kết quả của nó, có thể mở rộng sang các lĩnh vực dịch vụ khác. Cuối cùng, bài báo đề xuất một chương trình nghiên cứu cho các nghiên cứu tương lai để giải quyết các khoảng trống nghiên cứu đã được xác định.
+Kết quả của nghiên cứu cho thấy rằng XGBoost vượt trội hơn các kỹ thuật khác và là thuật toán phù hợp nhất để xây dựng mô hình dự đoán churn, và đạt được độ chính xác cao hơn bằng cách thực hiện tinh chỉnh siêu tham số Grid Search CV với XGBoost, kết quả là độ chính xác đạt 81,2%. 
+Toàn cầu hóa và sự tiến bộ về công nghệ trong ngành viễn thông đã dẫn đến sự tăng đáng kể về số lượng nhà điều hành, tạo ra sự cạnh tranh thị trường khốc liệt. Ngành này đã trở nên quan trọng ở các quốc gia phát triển, và các công ty đang cố gắng tăng lợi nhuận bằng cách thu hút khách hàng mới, bán thêm dịch vụ cho khách hàng hiện tại và gia hạn thời gian giữ chân khách hàng hiện tại. Trong phương pháp truyền thống của việc dự đoán khuyết điểm, một bộ phân loại đơn lẻ được sử dụng để xây dựng một mô hình trên một tập dữ liệu đã được gán nhãn trước. Tuy nhiên, phương pháp này có nhược điểm trong việc dự đoán khuyết điểm một cách chính xác dưới một số hoàn cảnh nhất định. Để vượt qua những hạn chế này, phương pháp tăng cường được áp dụng để kết hợp nhiều bộ phân loại yếu và tạo ra một mô hình phân loại mạnh mẽ. Trong số nhiều thuật toán được sử dụng cho dự đoán churn, các kỹ thuật tổ hợp đã chứng minh độ chính xác cao hơn so với các phương pháp đơn giản hơn. Nghiên cứu này nhằm mục đích vượt qua những hạn chế này bằng cách thử nghiệm với năm thuật toán tổ hợp, bao gồm Adaboost, Gradient Boost, XGBoost, CatBoost và LightGBM. Kết quả cho thấy rằng XGBoost vượt trội hơn các kỹ thuật khác và là thuật toán phù hợp nhất để xây dựng mô hình dự đoán. Ngoài ra, nghiên cứu đạt được độ chính xác cao hơn bằng cách thực hiện tinh chỉnh siêu tham số Grid Search CV với XGBoost, kết quả là độ chính xác đạt 81,2%. 
+Trong một nghiên cứu về việc chuyển đổi khách hàng của công ty viễn thông, điều tra về sự churn của khách hàng trong ngành viễn thông (Telco). Mục tiêu là phân tích các mẫu và yếu tố góp phần vào việc mất khách hàng, và sau đó phát triển các mô hình dự đoán để xác định các khách hàng tiềm năng có thể rời bỏ dịch vụ. Bằng cách tận dụng dữ liệu lịch sử của khách hàng, thông qua các kỹ thuật học máy, chúng tôi cố gắng cung cấp các đề xuất hành động cho các nhà cung cấp Telco để giảm thiểu việc churn và nâng cao lòng trung thành của khách hàng, từ đó góp phần vào sự phát triển bền vững của doanh nghiệp. Nghiên cứu có thể phơi bày cái nhìn sâu sắc về ảnh hưởng của các yếu tố như thời hạn hợp đồng, chất lượng dịch vụ, kế hoạch giá cả và sự hài lòng của khách hàng với hỗ trợ khách hàng đối với tỷ lệ churn. Ngoài ra, nghiên cứu có thể làm sáng tỏ tầm quan trọng của sự tương tác và các chương trình trung thành của khách hàng trong việc giảm thiểu việc churn. Bằng cách hiểu rõ những yếu tố này, các nhà cung cấp Telco có thể định chiến lược đối phó với sự mất khách hàng. Điều này có thể bao gồm cải thiện chất lượng dịch vụ, tối ưu hóa cấu trúc giá cả, cải thiện tương tác với dịch vụ khách hàng và điều chỉnh các nỗ lực tiếp thị cho các đối tượng khách hàng cụ thể. Cuối cùng, các phát hiện của nghiên cứu góp phần vào việc ra quyết định có căn cứ trong ngành viễn thông, có thể hỗ trợ trong việc phát triển các chiến lược giữ chân hiệu quả và tăng cường sự hài lòng của khách hàng. 
+Nghiên cứu dự đoán sự chuyển đổi khách hàng dựa trên máy học trong kinh doanh cho thuê thiết bị gia đình. Nghiên cứu này đã xác định và tính toán ảnh hưởng của các biến quan trọng đối với việc chuyển đổi khách hàng cá nhân để cho phép một doanh nhân (nhân viên quản lý khách hàng thuê thiết bị) thực hiện tiếp thị phù hợp với từng khách hàng để giải quyết nguyên nhân gây ra sự chuyển đổi. Đóng góp chính của nghiên cứu là phân tích thông tin hành vi khách hàng của một công ty cho thuê máy lọc nước thực tế, nơi sự chuyển đổi khách hàng xảy ra rất thường xuyên, và phát triển và xác minh mô hình dự đoán sự chuyển đổi. Một thuật toán máy học được áp dụng vào một tập dữ liệu hoạt động lớn về dịch vụ cho thuê thiết bị điện tử của một công ty ở Hàn Quốc, để học các đặc điểm có ý nghĩa. Để đo lường hiệu suất của mô hình, chỉ số F-measure và diện tích dưới đường cong (AUC) đã được áp dụng, trong đó đạt được giá trị F1 là 93% và AUC là 88%. Tập dữ liệu chứa khoảng 84.000 khách hàng đã được sử dụng để huấn luyện và kiểm tra. Một đóng góp khác là đánh giá hiệu suất suy luận của mô hình dự đoán bằng cách sử dụng tình trạng   hợp đồng của khoảng 250.000 dữ liệu khách hàng hiện đang hoạt động, xác nhận một tỷ lệ thành công khoảng 80%. Cuối cùng, nghiên cứu này đã xác định và tính toán ảnh hưởng của các biến quan trọng đối với sự chuyển đổi khách hàng cá nhân để cho phép một doanh nhân (nhân viên quản lý khách hàng cho thuê thiết bị) thực hiện tiếp thị phù hợp với từng khách hàng để giải quyết nguyên nhân gây ra sự chuyển đổi. 
+Nghiên cứu về Khám phá biến thời gian trong các chỉ số RFM để dự đoán sự chuyển đổi của khách hàng bằng mạng nơ-ron sâu. Các mạng nơ-ron hồi tiếp được tìm thấy có hiệu suất cao hơn so với kiến trúc transformer khi tập trung vào các đặc trưng RFM biến đổi theo thời gian và các phương pháp kết hợp sử dụng các đầu ra của mạng nơ-ron sâu trong các mô hình CCP truyền thống được đánh giá. Bài nghiên cứu này cung cấp một đánh giá toàn diện về khả năng của các mạng nơ-ron hồi tiếp và transformer cho việc dự đoán sự chuyển đổi của khách hàng (CCP) bằng cách sử dụng các đặc trưng hành vi biến đổi theo thời gian dưới dạng sự gần gũi, tần suất và giá trị tiền tệ (RFM). Các biến RFM là trụ cột của CCP và nói chung, dự báo hành vi của khách hàng. Kiểm tra các chiến lược thay thế để tích hợp các đặc trưng của khách hàng biến đổi theo thời gian và không biến đổi vào một kiến trúc mạng. Trong phạm vi này, nghiên cứu cũng đánh giá các phương pháp kết hợp sử dụng các đầu ra của DNN trong các mô hình CCP truyền thống. Sử dụng một bộ dữ liệu bảng toàn diện từ một công ty dịch vụ tài chính lớn, chúng tôi phát hiện ra rằng các mạng nơ-ron hồi tiếp vượt trội so với kiến trúc transformer khi tập trung vào các đặc trưng RFM biến đổi theo thời gian. Kết quả này được xác nhận khi các đặc trưng của khách hàng không biến đổi theo thời gian được bao gồm, độc lập với hình thức cụ thể của việc tích hợp đặc trưng. Cuối cùng, nghiên cứu không tìm thấy bằng chứng thống kê nào cho thấy các phương pháp kết hợp (dựa trên hồi quy logistic được điều chỉnh và nâng cấp độ lên gradient cực đại) cải thiện hiệu suất dự đoán - làm nổi bật rằng DNN và đặc biệt là các mạng nơ-ron hồi tiếp đơn lẻ thích hợp cho việc phân loại CCP sử dụng các biến đổi RFM theo thời gian.
+Nghiên cứu trước đây chủ yếu tập trung vào việc xác định các biến ảnh hưởng mạnh mẽ nhất đến việc khách hàng chuyển đổi hoặc đã sử dụng phân đoạn khách hàng để xác định một phần của khách hàng tiềm năng, loại trừ các ảnh hưởng của nó đối với độ chính xác của dự báo. Do đó, có hai mục tiêu nghiên cứu chính trong công việc này. Mục tiêu ban đầu là kiểm tra tác động của phân đoạn khách hàng đối với độ chính xác của dự báo khách hàng chuyển đổi trong ngành ngân hàng bằng cách sử dụng các mô hình học máy. Mục tiêu thứ hai là thử nghiệm, đối chiếu và đánh giá các phương pháp học máy nào là hiệu quả nhất trong việc dự đoán khách hàng chuyển đổi. Bài nghiên cứu này xem xét cơ sở lý thuyết của việc khách hàng chuyển đổi, và phân đoạn khách hàng, và đề xuất sử dụng các kỹ thuật học máy giám sát để dự đoán mất mát khách hàng. Trong nghiên cứu dự báo Chuyển đổi Khách hàng trong Ngành Ngân hàng Bằng Các Mô Hình Phân Loại Dựa trên Học Máy, sử dụng các mô hình học máy khác nhau như phân cụm k-means để phân đoạn khách hàng, k-nearest neighbors, logistic regression, decision tree, random forest, và support vector machine để áp dụng vào bộ dữ liệu để dự đoán sự chuyển đổi của khách hàng. Kết quả cho thấy rằng bộ dữ liệu hoạt động tốt với mô hình random forest, với độ chính xác khoảng 97%, và sau khi phân đoạn khách hàng, độ chính xác trung bình của mỗi mô hình đều hoạt động tốt, với logistic regression có độ chính xác thấp nhất (87,27%) và random forest có kết quả tốt nhất (97,25%). Phân đoạn khách hàng không có nhiều ảnh hưởng đến độ chính xác của các dự đoán. Điều này phụ thuộc vào bộ dữ liệu và các mô hình chúng ta chọn. Các nhà thực hành có thể áp dụng các giải pháp được đề xuất để xây dựng một hệ thống dự đoán hoặc áp dụng chúng trong các lĩnh vực khác như giáo dục, du lịch, tiếp thị, và nhân sự. Trong thời gian sắp tới có thể xây dựng một ứng dụng thời gian thực hoặc gần thời gian thực để cung cấp thông tin gần như đầy đủ để đưa ra quyết định tốt. Hơn nữa, xử lý dữ liệu mất cân bằng bằng các kỹ thuật mới. 
+Nghiên cứu về Phương Pháp Dự Báo Chuyển Đổi Sâu cho Ngành Viễn Thông. Thấy được, Năng lực dự báo tỷ lệ chuyển đổi là chìa khóa thành công cho ngành viễn thông. Đồng thời, việc thu được lợi nhuận cao cũng là điều quan trọng đối với ngành này. Do đó, thách thức đặt ra là dự báo tỷ lệ chuyển đổi của khách hàng với độ chính xác cao mà không làm giảm lợi nhuận. Trong nghiên cứu này, các phương pháp học khác nhau được khám phá để giải quyết thách thức này và xây dựng một mô hình dự báo chuyển đổi. Các kỹ thuật học kết hợp (như Adaboost, random forest (RF), extreme randomized tree (ERT), xgboost (XGB), gradient boosting (GBM), bagging và stacking), các kỹ thuật phân loại truyền thống (như logistic regression (LR), decision tree (DT), và k-nearest neighbor (kNN)), và mạng nơ-ron nhân tạo (ANN), cũng như kỹ thuật mạng nơ-ron tích chập (CNN) được thử nghiệm để lựa chọn mô hình tốt nhất cho việc xây dựng một mô hình dự báo chuyển đổi khách hàng. Đánh giá về các mô hình được đề xuất được tiến hành bằng cách sử dụng hai tập dữ liệu công cộng: ngành công nghiệp viễn thông Đông Nam Á và thị trường viễn thông Mỹ. Trên cả hai tập dữ liệu, CNN và ANN đã đem lại kết quả tốt hơn so với các kỹ thuật khác. Độ chính xác thu được trên tập dữ liệu đầu tiên sử dụng CNN là 99% và sử dụng ANN là 98%, và trên tập dữ liệu thứ hai là 98% và 99%, tương ứng.
+III. Phương pháp
+3.1. Các kỹ thuật nền tảng
+	Xử lý dữ liệu: chuyển đổi dữ liệu, xóa dữ liệu thiếu, xóa cột, làm sạch dữ liệu.
+	Phân tích và khám phá dữ liệu: phân tích tương quan, trực quan hóa dữ liệu.
+	Kỹ thuật SMOTE để cân bằng dữ liệu.
+	Xây dựng và huấn luyện mô hình.
+	Đánh giá mô hình dựa trên các chỉ số: accuracy, precision, recall, f1-score.
+	Tinh chỉnh siêu tham số hyperparameter tuning.
+3.2. Đề xuất phương pháp
+Trong nghiên cứu này chúng tôi sử dụng thuật toán phân loại và kết hợp giữa các mô hình học máy: Decision Tree, Random Forestvà XgBoost để dự đoán tỷ lệ khách hàng rời bỏ dịch vụ viễn thông. Qua nghiên cứu các dự án cùng chủ đề chúng tôi nhận thấy rằng mô hình XGBoost và Random Forest có ưu điểm là mang lại hiệu suất dự đoán cao vượt trội so với các phương pháp học máy khác như KNN. Đặc điểm của đề tài teleco customer churn là dữ liệu thường không cân bằng với số lượng khách hàng rời bỏ và số lượng khách hàng không rời bỏ, cả hai mô hình Random Forest và XGBoost đều có khả năng xử lý tốt các bài toán này bằng cách áp dụng các kỹ thuật như bootstrapping và weighted sampling để tạo ra các mô hình mạnh mẽ hơn cho lớp thiểu số. So với mô hình hồi quy tuyến tính hay decision tree thì XGBoost và Random Forest có khả năng xử lý các mối quan hệ không tuyến tính và phức tạp tạo điều kiện thuận lợi cho việc phát hiện ra các mẫu phức tạp trong tập dữ liệu. Cả hai mô hình trên đều cung cấp các công cụ để tối ưu hóa siêu tham số tự động giúp giảm thiểu thời gian và công sức trong quá trình tinh chỉnh mô hình, có thể tích hợp nhiều thư viện học máy phổ biến như scikit-learn và được hỗ trợ trong nhiều ngôn ngữ lập trình khác nhau. Ngoài ra, XGBoost là mô hình rất phù hợp với ngành viễn thông trong việc dự đoán tỷ lệ khách hàng rời bỏ dịch vụ vì có thể phân tích được các yếu tố ảnh hưởng đến quyết định của khách hàng. Mô hình Decision Tree có ưu điểm là có thể tạo ra một cấu trúc cây quyết định giúp người dùng có cái nhìn trực quan hơn, hiễu rõ về dữ liệu và có thể đưa ra các quyết định đúng đắn. Decision Tree có thể xử lý cả dữ liệu phân loại và số mà không cần một quá trình tiền xử lý dữ liệu phức tạp và các dữ liệu thiếu mà không cần các biện pháp điền thêm giá trị. Kỹ thuật phân loại cũng được đánh giá rất phù hợp với bài toán teleco customer churn bởi khả năng dự đoán nhãn của một quan sát dựa vào các biến đầu vào, cung cấp các thông số để đo lường hiệu suất của mô hình trên tập dữ liệu. Mô hình phân loại cũng có thể xử lý các dữ liệu không cân bằng dựa vào các kỹ thuật như resampling... Có nhiều mô hình phân loại khác nhau có thể được sử dụng tùy thuộc vào đặc điểm của dữ liệu và bài tóan, ở trong nghiên cứu này chúng tôi sử dụng hai mô hình phân loại bao gồm Logistic Regression và Light Gradient Boosting Machine (LightGBM) để dự đoán tỷ lệ khách hàng rời bỏ dịch vụ viễn thông.
+Phương pháp được triển khai theo tiến trình:
+Bước 1: Khai thác dữ liệu
+Quan sát tổng quan, miêu tả dữ liệu, thống kê dữ liệu.
+Bước 2: Chuẩn bị dữ liệu
+	Kiểm tra và xử lý dữ liệu: xóa dữ liệu thiếu, xóa cột, chuyển đổi và làm sạch dữ liệu.
+	Xử lý mất cân bằng dữ liệu
+Bước 3: Khám phá dữ liệu
+Trực quan hóa dữ liệu bằng các biểu đồ phù hợp với bài toán.
+Bước 4: Xây dựng và huấn luyện mô hình
+	Chia dữ liệu thành hai tập gồm tập huấn luyện 80% và tập kiểm tra 20%
+	Xây dựng và huần luyện mô hình
+Bước 5: Sử dụng các chỉ số để đánh giá, so sánh mô hình.
+IV. Thực nghiệm
+4.1. Miêu tả dữ liệu
+	Ngữ cảnh: Tập dữ liệu bao gồm hồ sơ thông tin khách hàng và tỷ lệ rời bỏ dịch của họ tại một công ty viễn thông.
+	Mục tiêu: Dự đoán những khách hàng có thể ngưng sử dụng dịch vụ viễn thông để đề ra các giải pháp nhằm giảm thiểu tỷ lệ khách hàng rời bỏ dịch vụ viễn thông.
+	Bộ dữ liệu bao gồm thông tin:
+•	Khách hàng đã rời đi trong tháng trước được miêu tả tại cột churn
+•	Các dịch vụ khách hàng đã đăng ký như điện thoại, đường dây, internet, bảo mật trực tuyến, sao lưu trực tuyến, bảo vệ thiết bị, hỗ trợ kỹ thuật và truyền hình trực tuyến.
+•	Thông tin tài khoản khách hàng: họ đã đã là khách hàng trong bao lâu, hợp đồng, phương thức thanh toán, thanh toán không cần giấy tờ, phí hàng tháng và tổng phí.
+•	Thông tin nhân khẩu học về khách hàng: giới tính, độ tuổi...
+
+
+
+ 
+Bảng 1. Miêu tả dữ liệu
+Trường dữ liệu	Mô tả	Kiểu dữ liệu
+CustomerID	Mã khách hàng	object
+Gender	Giới tính khách hàng	object
+SeniorCitizen	Khách hàng có phải người cao tuổi (1, 0)	Int64
+Partner	Khách hàng có đối tác hay không (Có, Không)	object
+Dependents	Khách hàng có người phụ thuộc hay không (Có, Không)	object
+Tenure	Số tháng khách hàng đã gắn bó với công ty	Int64
+PhoneService	Khách hàng có dịch vụ điện thoại hay không (Có, Không)	object
+MultipleLines	Khách hàng có nhiều line hay không (Có, Không, Không có dịch vụ điện thoại)	object
+InternetService	Nhà cung cấp dịch vụ Internet của khách hàng (DSL, Fiber, Optic, No)	object
+OnlineSecurity	Khách hàng có bảo mật trực tuyến hay không (Có, Không, Không có dịch vụ Internet)	object
+OnlineBackup	Khách hàng có sao lưu trực tuyến hay không (Có, Không, Không có dịch vụ Internet)	object
+DeviceProtection	Khách hàng có bảo vệ thiết bị hay không (Có, Không, Không có dịch vụ Internet)	object
+TechSupport	Khách hàng có được hỗ trợ kỹ thuật hay không (Có, Không, Không có dịch vụ Internet)	object
+StreamingTV	Khách hàng có truyền hình trực tuyến hay không (Có, Không, Không có dịch vụ trực tuyến)	object
+StreamingMovies	Khách hàng có đăng ký phim hay không (Có, Không, Không có dịch vụ trực tuyến)	object
+Contract	Thời hạn hợp đồng của khách hàng	object
+MonthlyCharges	Số tiền khách hàng phải trả hàng tháng	float64
+TotalCharges	Tổng số tiền phải trả	object
+Churn	Khách hàng có rời bỏ hay không	object
+ 
+4.2. Tiền xử lý dữ liệu
+	Chuyển đổi dữ liệu:
+ 
+	Xóa dữ liệu:
+ 
+	Chuyển đổi dữ liệu:
+ 
+	Tách dữ liệu:
+
+	Khám phá dữ liệu EDA:
+•	Biểu đồ cột đếm số khách hàng có rời bỏ hay không
+
+
+•	Biểu đồ thể hiện phần trăm churn
+
+•	Biểu đồ thể hiện sự tương quan giữa 3 biến 
+
+•	Biểu đồ histogram
+ 
+•	Sự tương quan giữa các biến
+ 
+•	Biểu đồ phân phối thể hiện tỷ lệ khách hàng rời bỏ dựa vào tenure (số tháng đã gắn bó)
+•	Tỷ lệ khách hàng rời bỏ dựa vào số tiền khách hàng phải trả hàng tháng
+
+•	Tỷ lệ khách hàng rời bỏ dựa vào tổng số tiền phải trả
+ 
+4.3. Các độ đo đánh giá hiệu năng
+Trong nghiên cứu này chúng tôi sử dụng bốn chỉ số bao gồm accuracy, precision, recall và F1 score để đánh giá mô hình.
+	Precision là tỷ lệ giữa số lượng mẫu được dự đoán khớp mẫu trên tổng dự đoán khớp mẫu và dự đoán đúng nhưng sai.
+ 
+	Recall là tỷ lệ giữa số lượng mẫu được dự đoán khớp mẫu với tổng dự đoán khớp mẫu và dự đoán sai nhưng đúng.
+ 
+	Accuracy là độ chính xác của mô hình, là tỷ lệ giữa số lượng mẫu được phân loại chính xác trên cho tổng số mẫu của tập dữ liệu huấn luyện.
+  
+	F1 score là trung bình trọng số của Precision và Recall.
+  
+Trong đó:
+•	TP (True Positive): tổng số trường hợp dự báo khớp mẫu đúng.
+•	TN (True Negative): tổng số trường hợp dự báo khớp mẫu sai.
+•	FP (False Positive): tổng số trường hợp dự báo các quan sát thuộc mẫu đúng nhưng tính thành sai.
+•	FN (False Negative): tổng số trường hợp dự báo các quan sát thuộc mẫu sai nhưng tính thành đúng.
+4.4. Các tham số và môi trường cài đặt
+4.4.1. Tham số
+	Sử dụng tham số parameters , model, criterion, random_state, max_depth, min_samples_leaf.
+	Siêu tham số hypererparamete.
+	Tham số n_estimators, learning_rate, subsamrat, subplots.
+4.4.2. Môi trường cài đặt
+	Ngôn ngữ lập trình Python.
+	Thư viện scikit-learn: cung cấp công cụ xây dựng và huấn luyện mô hình.
+	Thư viện pandas: cung cấp cấu trúc dữ liệu và công cụ phân tích dữ liệu
+	Thư viện numpy: hỗ trợ các phép tính số học.
+	Thư viện matplotlib và seaborn: trực quan hóa dữ liệu bằng các biểu đồ.
+	Xgboost và lightgbm: xử lý dữ liệu.
+4.5. Các phương pháp cơ sở
+	Phương pháp phân loại: LightGBM, Logistic Regression.
+
+	Kết hợp các mô hình học máy: 
+•	Decision Tree.
+•	Random Forest.
+•	XGBoost.
+4.6. Phân tích, so sánh các kết quả
+4.6.1. Mô hình phân loại
+	Mô hình LightGBM:
+•	Chia tập dữ liệu:
+ 
+•	Huấn luyện mô hình:
+ 
+Bộ dữ liệu được chia theo tỷ lệ 80:20 với tập huấn luyện 80% và tập kiểm tra 20%, tỷ lệ này giúp mô hình đạt được hiệu quả tốt vì tỷ lệ giúp dữ liệu được chia không có phương sai quá cao.
+ 
+	Logistic Regression
+•	Chia tập dữ liệu:
+ 
+•	Xây dựng và huấn luyện mô hình:
+ 
+ 
+=> Mô hình Logistic Regression dự đoán đúng 83%% các trường hợp khách hàng không rời bỏ với recall khoảng 90% nghĩa là mô hình có khả năng tốt trong việc nhận diện những khách hàng không rời bỏ dịch vụ viễn thông. Tuy nhiên tỷ lệ dự đoán khách hàng rời bỏ dịch vụ viễn thông lại thấp hơn khoảng 64% với recall 50% điều này cho thấy mô hình cần cải thiện khả năng dự đoán tỷ lệ khách hàng rời bỏ dịch vụ viễn thông vì đây mới là mục tiêu của dự án. Độ chính xác của mô hình là 0,81 tương đương khoảng 81%  cho thấy tỷ lệ dự đoán đúng của mô hình khá cao.
+•	Xử lý dữ liệu mất cân bằng:
+ 
+
+•	Xây dựng và huấn luyện mô hình sau khi xử lý dữ liệu mất cân bằng:
+ 
+ 
+=> Sau khi xử lý dữ liệu mất cân bằng chúng tôi thấy rằng độ chính xác của mô hình đã tăng lên đạt khoảng 91%. Precision của mô hình dự đoán tỷ lệ khách hàng rời bỏ dịch vụ viễn thông là 91% vẫn thấp hơn so với 92% tỷ lệ khách hàng không rời bỏ dịch vụ viễn thông. Tuy nhiên recall của lớp 1 tức là tỷ lệ khách hàng rời bỏ dịch vụ viễn thông cao hơn so với recall của lớp 0 là 88%. F1 score của mô hình khoảng 91% đảm bảo mô hình không chỉ tập trung vào việc dự đoán chính xác một lớp mà còn phát hiện được nhiều mẫu thuộc lớp đó.
+4.6.2. Decision Tree
+ 
+ 
+=> Mô hình Decision Tree dự đoán đúng 95% các trường hợp khách hàng không rời bỏ với recall khoảng 92% nghĩa là mô hình có khả năng tốt trong việc nhận diện những khách hàng không rời bỏ dịch vụ viễn thông. Tuy nhiên tỷ lệ dự đoán khách hàng rời bỏ dịch vụ viễn thông lại thấp hơn khoảng 93% với recall 96% nhưng đây vẫn là một tỷ lệ khá cao.
+4.6.3. Random Forest
+ 
+ 
+=> Mô hình Random Forest dự đoán đúng 96% các trường hợp khách hàng không rời bỏ với recall khoảng 92% nghĩa là mô hình có khả năng tốt trong việc nhận diện những khách hàng không rời bỏ dịch vụ viễn thông. Tỷ lệ dự đoán khách hàng rời bỏ dịch vụ viễn thông lại thấp hơn khoảng 94% với recall 97% nhưng đây vẫn là một tỷ lệ khá cao. Với chỉ số precision thì mô hình có độ chính xác trong dự đoán tỷ lệ khách hàng không rời bỏ cao hơn so với tỷ lệ khách hàng rời bỏ dịch vụ viễn thông. Tuy nhiên mô hình này lại có recall trong việc dự đoán khách hàng rời bỏ cao hơn có nghĩa mô hình sẽ phát hiện được nhiều mẫu positive. Độ chính xác của mô hình đạt tỷ lệ cao khoảng 95%.
+4.6.4. XGBoost
+ 
+ 
+=> Mô hình XGBoost cũng có kết quả tương tự như Random Forest dự đoán đúng 96% các trường hợp khách hàng không rời bỏ với recall khoảng 92% nghĩa là mô hình có khả năng tốt trong việc nhận diện những khách hàng không rời bỏ dịch vụ viễn thông. Tỷ lệ dự đoán khách hàng rời bỏ dịch vụ viễn thông lại thấp hơn khoảng 94% với recall 97% nhưng đây vẫn là một tỷ lệ khá cao. Với chỉ số precision thì mô hình có độ chính xác trong dự đoán tỷ lệ khách hàng không rời bỏ cao hơn so với tỷ lệ khách hàng rời bỏ dịch vụ viễn thông. Tuy nhiên mô hình này lại có recall trong việc dự đoán khách hàng rời bỏ cao hơn có nghĩa mô hình sẽ phát hiện được nhiều mẫu positive. Độ chính xác của mô hình đạt tỷ lệ cao khoảng 95%.
+Kết quả: Dưới đây là bảng so sánh các chỉ số đánh giá hiệu năng giữa các mô hình RDF, Decision Tree, XGBoost, LighGBM, Logistic Regression.
+	RDF	Decision Tree	XGBoost	LightGBM	Logistic Regression
+Accuracy	0.95	0.94	0.95	0.79	0.91
+Recall	0.97	0.96	0.97	0.5	0.94
+Precision	0.94	0.93	0.94	0.63	0.91
+F1 score	0.95	0.95	0.95	0.55	0.92
+=> Mô hình RDF và XGBoost có chỉ số accuracy là 95% cao hơn các mô hình còn lại lần lượt là 1% Decision Tree, 16% LightGBM và 4% Logistic Regression. Hai chỉ số precision cao hơn từ 1 % đến 40%, đặc biệt mô hình LightGBM có chỉ số precision và F1 score thấp hơn nhiều so với các mô hình còn lại đạt tỷ lệ lần lượt là 63% và 55%.
+V. Kết luận
+Dựa vào kết quả của nghiên cứu, chúng tôi đã thực hiện một phân tích sâu về mô hình hóa tỷ lệ khách hàng rời bỏ dịch vụ trong ngành viễn thông. Trong quá trình này, chúng tôi đã tiến hành đánh giá hiệu suất của các mô hình phổ biến như LightGBM, Logistic Regression, Decision Tree, XGBoost và Random Forest.
+Đối với hai mô hình phân loại truyền thống LightGBM và Logistic Regression, chúng tôi đã phát hiện rằng mô hình phân loại LightGBM dù có tốc độ huấn luyện nhanh, khả năng xử lý các biến đầu vào phức tạp, xử lý dữ liệu mất cân bằng  để đưa ra các quyết định chính xác nhưng trong nghiên cứu này LightGBM lại không mang lại hiệu suất cao cho bài toán, các chỉ số đánh giá của LightGBM không đạt mức độ như chúng tôi mong muốn khi chỉ dao động từ 50% đến 80%.  Logistic Regression là một mô hình mặc dù đơn giản và dễ hiểu tuy nhiên mô hình này không thể hoạt động tốt trên dữ liệu không cân bằng nên cần trải qua quá trình xử lý dữ liệu mất cân bằng. Hơn nữa Logistic Regression có thể phản ánh không đúng mối quan hệ giữa các biến và tỷ lệ khách hàng rời bỏ dịch vụ viễn thông. Decision Tree, mặc dù đơn giản và dễ giải thích tuy nhiên mô hình này lại không phù hợp với các tập dữ liệu để lớn, đa chiều và phức tạp như teleco customer churn, nếu cần thiết phải sử dụng Decision Tree cần được kết hợp với nhiều phương pháp khác để cải thiện hiệu suất. 
+Qua nghiên cứu chúng tôi nhận ra rằng XGBoost và Random Forest sẽ là hai mô hình tối ưu nhất cho việc dự đoán tỷ lệ khách hàng rời bỏ dịch vụ viễn thông. XGBoost có khả năng xử lý tốt các tập dữ liệu lớn, các tham số có thể điều chỉnh để xử lý dữ liệu mất cân bằng, làm việc tốt với các biến đầu vào phức tạp, đặc biệt là có tốc độ và huật suất cao giúp giảm thời gian huấn luyện mô hình và tăng cường hiệu suất dự đoán. Trong khi đó Random Forest cũng là một mô hình có khả năng xử lý xử liệu lớn và phúc tạp, Random Forest không đòi hỏi nhiều công đoạn cấu hình và tinh chỉnh, hiệu suất dự đoán của mô hình này cũng rất cao mà không cần một quá trình quá phức tạp.
+Trong ngành viễn thông, việc giảm tỷ lệ khách hàng rời bỏ là một mục tiêu quan trọng để tối ưu hóa chi phí, duy trì và phát triển doanh nghiệp. Trong nghiên cứu này, chúng tôi đã thực hiện một cuộc khảo sát toàn diện về việc lựa chọn các công cụ và phương pháp để dự đoán tỷ lệ khách hàng rời bỏ, từ đó đề xuất các biện pháp giữ chân khách hàng hiệu quả. Qua quá trình phân tích, chúng tôi đã nhận ra rằng việc sử dụng một mô hình dự đoán chính xác là chìa khóa để dự đoán tỷ lệ khách hàng rời bỏ dịch vụ từ đó đưa ra các biện pháp giữ chân khách hàng hiệu quả. Các công cụ và mô hình được đánh giá trong nghiên cứu bao gồm LightGBM, Logistic Regression, Decision Trees, XGBoost và Random Forest. Trong số này,XGBoost và Random Forest là hai mô hình tối ưu nhất có thể xử lý những tập dữ liệu phức tạp và mang lại hiệu suất dự đoán cao. Ngoài ra, sự linh hoạt trong việc điều chỉnh các tham số của Random Forest và XGBoost cũng là điểm mạnh giúp tối ưu hóa hiệu suất của mô hình. Việc lựa chọn các công cụ và phương pháp dự đoán tỷ lệ khách hàng rời bỏ trong dịch vụ viễn thông đòi hỏi sự cân nhắc kỹ lưỡng và sự hiểu biết sâu sắc về dữ liệu và mục tiêu của doanh nghiệp. Random Forset và XGBoost được đề xuất là hai lựa chọn tối ưu nhất cho bài toán, kết quả của hai mô hình này có thể mang lại hiệu quả cao trong việc dự đoán tỷ lệ khách hàng rời bỏ để đưa ra các biện pháp giữ chân khách hàng, giảm tỷ lệ khách hàng rời bỏ và tăng cường sự trung thành của khách hàng với doanh nghiệp.
