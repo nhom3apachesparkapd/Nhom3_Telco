@@ -1,5 +1,12 @@
 # Nhom3_Telco
-
+# Danh sách nhóm
+1. Hoàng Thu Hương
+2. Lê Lưu Thúy Hằng
+3. Lê Thị Quí
+4. Hà Văn Hoàng
+5. Hoàng Lan Anh
+6. Lê Trọng Quý
+7. Nguyễn Thanh Hải
 #import các thư viện liên quan
 import pandas as pd
 import numpy as np
