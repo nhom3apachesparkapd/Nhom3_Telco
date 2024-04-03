@@ -1,12 +1,12 @@
 # Nhom3_Telco
 # Danh sách nhóm
-1. Hoàng Thu Hương
-2. Lê Lưu Thúy Hằng
-3. Lê Thị Quí
-4. Hà Văn Hoàng
-5. Hoàng Lan Anh
-6. Lê Trọng Quý
-7. Nguyễn Thanh Hải
+1. Hoàng Thu Hương 10
+2. Lê Lưu Thúy Hằng 9
+3. Lê Thị Quí 9
+4. Hà Văn Hoàng 8
+5. Hoàng Lan Anh 9
+6. Lê Trọng Quý 10
+7. Nguyễn Thanh Hải 8
    
 # import các thư viện liên quan
 import pandas as pd
