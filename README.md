@@ -32,7 +32,8 @@ import plotly.graph_objs as go
 import plotly.tools as tls
 import plotly.figure_factory as ff
 import warnings
-
+import nbfomat
+#đọc file
 import pandas as pd
 data = pd.read_csv("D:/file Zalo/Telco Customer Churn/WA_Fn-UseC_-Telco-Customer-Churn.csv")
 
